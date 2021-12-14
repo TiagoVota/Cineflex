@@ -9,17 +9,19 @@ import FinalizeOrder from './pages/finalizeOrder'
 
 
 const PagesRoutes = () => {
-	<Router>
-		<ResetStyleCSS />
-		<GlobalStyle />
+	return (
+		<Router>
+			<ResetStyleCSS />
+			<GlobalStyle />
 
-		<Routes>
-			<Route path='/login' element={<Homepage />} />
-			<Route path='/sign-up' element={<Seats />} />
-			<Route path='/' element={<Sessions />} />
-			<Route path='/new-entry' element={<FinalizeOrder />} />
-		</Routes>
-	</Router>
+			<Routes>
+				<Route path='/' element={<Homepage />} />
+				<Route path='/sessoes/:filmId' element={<Seats />} />
+				<Route path='/assentos/:sessionId' element={<Sessions />} />
+				<Route path='/sucesso' element={<FinalizeOrder />} />
+			</Routes>
+		</Router>
+	)
 }
 
 
