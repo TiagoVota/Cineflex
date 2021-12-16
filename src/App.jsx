@@ -1,10 +1,11 @@
 import PagesRoutes from './Routes'
 
 
-function App() {
+const App = () => {
 	return (
 		<PagesRoutes />
 	)
 }
+
 
 export default App
