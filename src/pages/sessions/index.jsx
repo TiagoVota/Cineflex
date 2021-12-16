@@ -47,9 +47,10 @@ export default Sessions
 
 
 const headerHeight = '67px'
+const footerHeight = '117px'
 
 const Container = styled.div`
-	height: calc(100vh - ${headerHeight});
+	height: calc(100vh - ${headerHeight} - ${footerHeight});
 	width: 100vw;
 	margin-top: ${headerHeight};
 	overflow-y: scroll;
