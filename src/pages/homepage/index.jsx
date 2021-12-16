@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { getFilms } from '../../services/service.films'
 
-import Header from '../shared/Header'
 import Poster from '../shared/Poster'
 
 
@@ -18,10 +17,8 @@ const Homepage = () => {
 
 	return (
 		<Container>
-			<Header />
-
 			<Title>
-				<H1>Selecione o filme</H1>
+				<h1>Selecione o filme</h1>
 			</Title>
 
 			<FilmsContainer>
@@ -42,6 +39,7 @@ const Homepage = () => {
 export default Homepage
 
 
+// TODO: Colocar o componente container num lugar separado
 const headerHeight = '67px'
 
 const Container = styled.div`
@@ -56,15 +54,15 @@ const Title = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-`
 
-const H1 = styled.h1`
-	font-style: normal;
-	font-weight: normal;
-	font-size: 24px;
-	line-height: 28px;
-	letter-spacing: 0.04em;
-	color: #293845;
+	> h1 {
+		font-style: normal;
+		font-weight: normal;
+		font-size: 24px;
+		line-height: 28px;
+		letter-spacing: 0.04em;
+		color: #293845;
+	}
 `
 
 const FilmsContainer = styled.div`

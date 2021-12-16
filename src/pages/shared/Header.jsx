@@ -1,10 +1,15 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 
 const Header = () => {
+	const navigate = useNavigate()
+
+	const handleClick = () => navigate('/')
+	
 	return (
 		<Container>
-			<H1>CINEFLEX</H1>
+			<H1 onClick={handleClick}>CINEFLEX</H1>
 		</Container>
 	)
 }
@@ -13,12 +18,14 @@ const Header = () => {
 export default Header
 
 
+const headerHeight = '67px'
+
 const Container = styled.div`
-	height: 67px;
+	height: ${headerHeight};
 	width: 100vw;
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -26,6 +33,7 @@ const Container = styled.div`
 `
 
 const H1 = styled.h1`
+	padding: calc((${headerHeight} - 40px) / 2) 20px;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 34px;
