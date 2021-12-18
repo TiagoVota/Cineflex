@@ -11,8 +11,19 @@ const getSessions = ({ filmId }) => {
 	return axios.get(`${BASE_URL}/movies/${filmId}/showtimes`)
 }
 
+const getSeats = ({ sessionId }) => {
+	return axios.get(`${BASE_URL}/showtimes/${sessionId}/seats`)
+}
+
+const postOrder = ({ ids, name, cpf }) => {
+	const body = { ids, name, cpf }
+	return axios.post(`${BASE_URL}/seats/book-many`, body)
+}
+
 
 export {
 	getFilms,
 	getSessions,
+	getSeats,
+	postOrder,
 }
