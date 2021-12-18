@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { getFilms } from '../../services/service.films'
 
 import Poster from '../shared/Poster'

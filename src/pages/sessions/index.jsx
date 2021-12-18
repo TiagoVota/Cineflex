@@ -4,8 +4,8 @@ import styled from 'styled-components'
 
 import { getSessions } from '../../services/service.films'
 
-import Footer from '../shared/Footer'
 import Session from './Session'
+import Footer from '../shared/Footer'
 
 
 const Sessions = () => {
