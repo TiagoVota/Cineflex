@@ -31,7 +31,7 @@ export default Session
 
 const Container = styled.div`
 	width: 100vw;
-	margin: 0 0 23px 23px;
+	padding: 0 0 23px 23px;
 
 	> h3 {
 		font-style: normal;
@@ -44,7 +44,7 @@ const Container = styled.div`
 `
 
 const TimesContainer = styled.div`
-	width: 100vw;
+	width: 100%;
 	margin-top: 23px;
 	display: flex;
 	flex-wrap: wrap;

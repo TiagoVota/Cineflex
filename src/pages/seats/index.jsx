@@ -168,19 +168,19 @@ const Title = styled.div`
 const SeatsContainer = styled.div`
 	width: 90vw;
 	height: calc(5 * (${seatCircleRadius} + 18px));
-	margin: -25px auto 0;
+	margin: -30px auto 0;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 `
 
 const CustomerInputsContainer = styled.div`
-	margin-top: 35px;
+	margin-top: 30px;
 `
 
 const Label = styled.label`
 	font-style: normal;
-  margin-left: 5%;
+  margin: 10px 0 0 6vw;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 20px;
