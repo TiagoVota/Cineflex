@@ -19,7 +19,6 @@ import Seat from './Seat'
 const Seats = () => {
 	const { sessionId } = useParams()
 	const navigate = useNavigate()
-
 	const { setOrderInfo } = useContext(OrderContext)
 	const [filmInfo, setFilmInfo] = useState({})
 	const [seatsList, setSeatsList] = useState([])
@@ -41,7 +40,8 @@ const Seats = () => {
 					seats
 				} = seatsInfo
 
-				setFilmInfo({ id, title, posterURL, time, weekday, date })
+				setOrderInfo({ filmInfo: { id } })
+				setFilmInfo({ id, sessionId, title, posterURL, time, weekday, date })
 				setSeatsList(makeSeatsList(seats))
 			})
 			.catch(({ response }) => console.log('error:', response))

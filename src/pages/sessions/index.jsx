@@ -13,7 +13,7 @@ const Sessions = () => {
 	const [sessionInfo, setSessionInfo] = useState({})
 	const { title, posterURL, days } = sessionInfo
 	const filmInfo = { id: filmId, title, posterURL }
-
+	
 	useEffect(() => {
 		// TODO: Melhorar resposta do catch (sweetalert)
 		getSessions({filmId})
