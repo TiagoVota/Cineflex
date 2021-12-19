@@ -36,9 +36,15 @@ const FinalizeOrder = () => {
 			</InfoSubtitle>
 
 			<InfoTitle>Ingressos</InfoTitle>
-			<InfoSubtitle>
-				{ids.map(id => `Assento ${id}`)}
-			</InfoSubtitle>
+			{
+				ids.map((id, index) => {
+					return (
+						<InfoSubtitle key={index}>
+							Assento {id}
+						</InfoSubtitle>
+					)
+				})
+			}
 
 			<InfoTitle>Comprador</InfoTitle>
 			<InfoSubtitle>
@@ -108,7 +114,7 @@ const InfoSubtitle = styled.h4`
 const Button = styled.button`
 	width: 60vw;
 	height: 42px;
-	margin: 90px 20vw 0;
+	margin: 90px 20vw 20vw;
 	background: #E8833A;
 	border-radius: 3px;
 	font-style: normal;
