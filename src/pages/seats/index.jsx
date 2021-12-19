@@ -89,7 +89,7 @@ const Seats = () => {
 	return (
 		<Container>
 			<Title>
-				<h1>Selecione o(s) assento(s)</h1>
+				<h2>Selecione o(s) assento(s)</h2>
 			</Title>
 
 			<SeatsContainer>
@@ -155,7 +155,7 @@ const Title = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	> h1 {
+	> h2 {
 		font-style: normal;
 		font-weight: normal;
 		font-size: 24px;

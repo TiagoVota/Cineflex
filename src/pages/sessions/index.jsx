@@ -24,7 +24,7 @@ const Sessions = () => {
 	return (
 		<Container>
 			<Title>
-				<h1>Selecione o horário</h1>
+				<h2>Selecione o horário</h2>
 			</Title>
 
 			{
@@ -62,7 +62,7 @@ const Title = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	> h1 {
+	> h2 {
 		font-style: normal;
 		font-weight: normal;
 		font-size: 24px;

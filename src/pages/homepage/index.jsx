@@ -19,7 +19,7 @@ const Homepage = () => {
 	return (
 		<Container>
 			<Title>
-				<h1>Selecione o filme</h1>
+				<h2>Selecione o filme</h2>
 			</Title>
 
 			<FilmsContainer>
@@ -31,7 +31,6 @@ const Homepage = () => {
 					/>)
 				}
 			</FilmsContainer>
-			{/* TODO: colocar um espaço ao final dos posters */}
 		</Container>
 	)
 }
@@ -56,7 +55,7 @@ const Title = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	> h1 {
+	> h2 {
 		font-style: normal;
 		font-weight: normal;
 		font-size: 24px;
@@ -68,7 +67,7 @@ const Title = styled.div`
 
 const FilmsContainer = styled.div`
 	width: 90vw;
-	margin-left: 5vw;
+	margin: 0 0 10vw 5vw;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
