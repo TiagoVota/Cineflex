@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import ReturnButton from './ReturnButton'
+
 
 const Header = () => {
 	const navigate = useNavigate()
@@ -9,6 +11,8 @@ const Header = () => {
 	
 	return (
 		<Container>
+			<ReturnButton />
+			
 			<Title onClick={handleClick}>CINEFLEX</Title>
 		</Container>
 	)
