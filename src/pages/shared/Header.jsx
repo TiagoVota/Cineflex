@@ -9,7 +9,7 @@ const Header = () => {
 	
 	return (
 		<Container>
-			<H1 onClick={handleClick}>CINEFLEX</H1>
+			<Title onClick={handleClick}>CINEFLEX</Title>
 		</Container>
 	)
 }
@@ -32,7 +32,7 @@ const Container = styled.div`
 	background-color: #C3CFD9;
 `
 
-const H1 = styled.h1`
+const Title = styled.h1`
 	padding: calc((${headerHeight} - 40px) / 2) 20px;
 	font-style: normal;
 	font-weight: normal;
