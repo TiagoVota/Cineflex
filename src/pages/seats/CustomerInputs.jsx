@@ -1,15 +1,25 @@
 import styled from 'styled-components'
 
-const CustomerInputs = ({ setName, name, setCpf, cpf }) => {
+
+const CustomerInputs = ({ updateCustomer, customerInfo }) => {
+	const { idAssento: seatId } = customerInfo
 	return (
 		<Container>
+			<Title>
+				{/* TODO: Arrumar o name aqui */}
+				Assento {seatId%50 === 0 ? 50 : seatId%50}
+			</Title>
+
 			<Label htmlFor='Nome'>Nome do comprador:</Label>
 			<Input
 				id='Nome'
 				placeholder='Digite seu nome...'
 				type='string'
-				onChange={({ target: { value } }) => setName(value)}
-				value={name}
+				onChange={({ target: { value } }) => updateCustomer({
+					id: seatId,
+					name: value
+				})}
+				value={customerInfo.nome}
 				required
 			/>
 
@@ -18,8 +28,11 @@ const CustomerInputs = ({ setName, name, setCpf, cpf }) => {
 				id='CPF'
 				placeholder='Digite seu CPF...'
 				type='string'
-				onChange={({ target: { value } }) => setCpf(value)}
-				value={cpf}
+				onChange={({ target: { value } }) => updateCustomer({
+					id: seatId,
+					cpf: value
+				})}
+				value={customerInfo.cpf}
 				required
 			/>
 		</Container>
@@ -32,23 +45,27 @@ export default CustomerInputs
 
 const Container = styled.div`
 	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`
+
+const Title = styled.h4`
+	font-style: normal;
+	font-weight: bold;
+	font-size: 20px;
+	line-height: 28px;
+	letter-spacing: 0.04em;
+	color: #293845;
 `
 
 const Label = styled.label`
-	font-style: normal;
   margin: 10px 0 0 6vw;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 20px;
-	line-height: 24px;
-	color: #FFFFFF;
-
+	display: flex;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
-	display: flex;
-	align-items: center;
 	color: #293845;
 `
 
