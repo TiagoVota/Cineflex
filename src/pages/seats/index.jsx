@@ -5,9 +5,12 @@ import styled from 'styled-components'
 import OrderContext from '../../contexts/OrderContext'
 import { getSeats, postOrder } from '../../services/service.films'
 import {
+	findCustomerById,
 	makeSeatsList,
 	selectedSeats,
-	updateSeatList
+	addAndRemoveCustomer,
+	updateSeatList,
+	updateCustomersByInput
 } from '../../factories/seatsFactory'
 import { errorModal } from '../../factories/modalFactory'
 
@@ -23,10 +26,7 @@ const Seats = () => {
 	const { setOrderInfo } = useContext(OrderContext)
 	const [filmInfo, setFilmInfo] = useState({})
 	const [seatsList, setSeatsList] = useState([])
-	const [seatsIds, setSeatsIds] = useState([])
 	const [customersInfo, setCustomersInfo] = useState([])
-	const [name, setName] = useState('')
-	const [cpf, setCpf] = useState('')
 
 	const errorMsg = {
 		unavailableSeat: 'Esse assento não está disponível!'
@@ -50,6 +50,13 @@ const Seats = () => {
 			.catch(({ response }) => console.log('error:', response))
 	}, [])
 
+	const updateCustomer = ({ id, name, cpf }) => {
+		const updatedCustomersInfo = updateCustomersByInput(
+			{ id, name, cpf, customersInfo }
+		)
+		setCustomersInfo(updatedCustomersInfo)
+	}
+
 	const makeJSXSeatsList = (seatsList) => {
 		const JSXSeatsList = seatsList.map((seatInfo, index) => <Seat
 			key={index}
@@ -63,17 +70,19 @@ const Seats = () => {
 	const handleSeatClick = ({ seatId, status }) => {
 		if (status === 'unavailable') return errorModal(errorMsg['unavailableSeat'])
 
-		const updatedSeatList = updateSeatList({ seatId, status, seatsList })
-		const seatsIds = selectedSeats(updatedSeatList, 'id')
+		const updatedSeatList = updateSeatList({ seatId, status, seatsList, customersInfo })
+		setCustomersInfo(addAndRemoveCustomer({ customersInfo, seatId }))
 
-		setSeatsIds(seatsIds)
 		setSeatsList(updatedSeatList)
 	}
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		
-		const orderSeats = { ids: seatsIds, name, cpf }
+		const orderSeats = {
+			ids: selectedSeats(seatsList, 'id'),
+			compradores: customersInfo
+		}
 		
 		postOrder(orderSeats)
 		// TODO: Melhorar resposta do catch (sweetalert)
@@ -85,15 +94,9 @@ const Seats = () => {
 						names: selectedSeats(seatsList, 'name')
 					}
 				})
-				clearInputs()
 				navigate('/sucesso')
 			})
 			.catch(({ response }) => console.log('error:', response))
-	}
-
-	const clearInputs = () => {
-		setName('')
-		setCpf('')
 	}
 
 	return (
@@ -110,12 +113,13 @@ const Seats = () => {
 
 			<form onSubmit={handleSubmit}>
 				{/* TODO: Fazer um Joi para as entradas esse forms */}
-				<CustomerInputs
-					setName={setName}				 
-					name={name}
-					setCpf={setCpf}
-					cpf={cpf}				 
-				/>
+				{
+					customersInfo.map((customerInfo, index) => <CustomerInputs
+						key={index}
+						customerInfo={customerInfo}
+						updateCustomer={updateCustomer}
+					/>)
+				}
 
 				<Button type='submit'>
 					Reservar assento(s)

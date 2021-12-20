@@ -26,8 +26,21 @@ const successModal = (title, showConfirmButton, timer) => {
 	})
 }
 
+const confirmModal = (title, text, confirmButtonText) => {
+	return Swal.fire({
+		title: title || 'Tem certeza disso?',
+		text: text || 'Você não poderá desfazer essa ação!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: confirmButtonText || 'Sim, delete isso!'
+	})
+}
+
 
 export {
 	errorModal,
 	successModal,
+	confirmModal,
 }

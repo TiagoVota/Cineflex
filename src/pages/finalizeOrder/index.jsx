@@ -10,7 +10,7 @@ const FinalizeOrder = () => {
 	const { orderInfo, setOrderInfo } = useContext(OrderContext)
 	const {
 		filmInfo: { title, date, time }={},
-		orderSeats: { names=[], name, cpf }={}
+		orderSeats: { names=[], compradores: customersInfo=[] }={}
 	} = orderInfo
 
 	const handleClick = () => {
@@ -28,7 +28,6 @@ const FinalizeOrder = () => {
 			</Title>
 
 			{/* TODO: Coloca loader maroto */}
-			{/* TODO: Pegar informações do localStorage */}
 			<InfoTitle>Filme e sessão</InfoTitle>
 			<InfoSubtitle>
 				{title}<br/>
@@ -48,11 +47,19 @@ const FinalizeOrder = () => {
 				})
 			}
 
-			<InfoTitle>Comprador</InfoTitle>
-			<InfoSubtitle>
-				Nome: {name}<br/>
-				CPF: {cpf}
-			</InfoSubtitle>
+			<InfoTitle>
+				{names.length > 1 ? 'Compradores' : 'Comprador'}
+			</InfoTitle>
+			{
+				customersInfo.map(({ nome, cpf}, index) => {
+					return (
+						<InfoSubtitle key={index}>
+							Nome: {nome}<br/>
+							CPF: {cpf}
+						</InfoSubtitle>
+					)
+				})
+			}
 
 			<Button onClick={handleClick}>
 				Voltar pra Home
@@ -104,7 +111,7 @@ const InfoTitle = styled.h3`
 `
 
 const InfoSubtitle = styled.h4`
-	margin-left: 8vw;
+	margin: 0 0 2vh 8vw;
 	font-style: normal;
 	font-weight: normal;
 	font-size: 22px;
@@ -116,7 +123,7 @@ const InfoSubtitle = styled.h4`
 const Button = styled.button`
 	width: 60vw;
 	height: 42px;
-	margin: 90px 20vw 20vw;
+	margin: 50px 20vw 20vw;
 	background: #E8833A;
 	border-radius: 3px;
 	font-style: normal;
