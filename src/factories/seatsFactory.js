@@ -5,7 +5,11 @@ const makeSeatsList = (seats) => {
 	const makeName = name => name.length === 1 ? `0${name}` : name
 
 	const seatsList = seats.map(({ id, name, isAvailable }) => {
-		return { id, name: makeName(name), status: makeStatus(isAvailable) }
+		return {
+			id,
+			name: makeName(name),
+			status: makeStatus(isAvailable)
+		}
 	})
 
 	return seatsList
@@ -52,12 +56,12 @@ const updateSeatList = ({ seatId, status, seatsList }) => {
 	return updatedSeatList
 }
 
-const selectedSeatsIds = (seatList) => {
-	const seatsIdList = seatList
+const selectedSeats = (seatList, type) => {
+	const seatsList = seatList
 		.filter(({ status }) => status === 'selected')
-		.map(({ id }) => id)
+		.map(seat => seat[type])
 
-	return seatsIdList
+	return seatsList
 }
 
 
@@ -65,5 +69,5 @@ export {
 	makeSeatsList,
 	seatColors,
 	updateSeatList,
-	selectedSeatsIds,
+	selectedSeats,
 }

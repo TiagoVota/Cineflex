@@ -10,7 +10,7 @@ const FinalizeOrder = () => {
 	const { orderInfo, setOrderInfo } = useContext(OrderContext)
 	const {
 		filmInfo: { title, date, time }={},
-		orderSeats: { ids=[], name, cpf }={}
+		orderSeats: { names=[], name, cpf }={}
 	} = orderInfo
 
 	const handleClick = () => {
@@ -35,9 +35,11 @@ const FinalizeOrder = () => {
 				{`${date} - ${time}`}
 			</InfoSubtitle>
 
-			<InfoTitle>Ingressos</InfoTitle>
+			<InfoTitle>
+				{names.length > 1 ? 'Ingressos' : 'Ingresso'}
+			</InfoTitle>
 			{
-				ids.map((id, index) => {
+				names.map((id, index) => {
 					return (
 						<InfoSubtitle key={index}>
 							Assento {id}
