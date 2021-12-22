@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
+import { displayCpf, sanitizeCpf } from '../../factories/CpfFactory'
+import { makeName } from '../../factories/seatsFactory'
+
 
 const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 	const { idAssento: seatId } = customerInfo
+
 	return (
 		<Container>
 			<Title>
-				{/* TODO: Arrumar o name aqui */}
-				Assento {seatId%50 === 0 ? 50 : seatId%50}
+				Assento {makeName(seatId)}
 			</Title>
 
 			<Label htmlFor='Nome'>Nome do comprador:</Label>
@@ -30,9 +33,9 @@ const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 				type='string'
 				onChange={({ target: { value } }) => updateCustomer({
 					id: seatId,
-					cpf: value
+					cpf: sanitizeCpf(value)
 				})}
-				value={customerInfo.cpf}
+				value={displayCpf(customerInfo.cpf)}
 				required
 			/>
 		</Container>
@@ -47,10 +50,10 @@ const Container = styled.div`
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 `
 
 const Title = styled.h4`
+	text-align: center;
 	font-weight: bold;
 	font-size: 20px;
 	line-height: 28px;
