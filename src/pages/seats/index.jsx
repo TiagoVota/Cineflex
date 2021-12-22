@@ -31,12 +31,15 @@ const Seats = () => {
 	const [customersInfo, setCustomersInfo] = useState([])
 
 	const errorMsg = {
-		unavailableSeat: 'Esse assento não está disponível!'
+		getSeats: `Não conseguimos carregar os assentos 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+		unavailableSeat: 'Esse assento não está disponível 🧐',
+		postOrder: `Não conseguimos finalizar a compra 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`
 	}
 
 	useEffect(() => {
 		setIsLoading(true)
-		// TODO: Melhorar resposta do catch (sweetalert)
 		getSeats({ sessionId })
 			.then(({ data: seatsInfo }) => {
 				const {
@@ -50,7 +53,7 @@ const Seats = () => {
 				setFilmInfo({ id, sessionId, title, posterURL, time, weekday, date })
 				setSeatsList(makeSeatsList(seats))
 			})
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.getSeats))
 			.finally(() => setIsLoading(false))
 	}, [])
 
@@ -70,7 +73,7 @@ const Seats = () => {
 	} 
 
 	const handleSeatClick = ({ seatId, status }) => {
-		if (status === 'unavailable') return errorModal(errorMsg['unavailableSeat'])
+		if (status === 'unavailable') return errorModal(errorMsg.unavailableSeat)
 
 		const updatedSeatList = updateSeatList({ seatId, status, seatsList, customersInfo })
 		setCustomersInfo(addAndRemoveCustomer({ customersInfo, seatId }))
@@ -88,7 +91,6 @@ const Seats = () => {
 		}
 		
 		postOrder(orderSeats)
-		// TODO: Melhorar resposta do catch (sweetalert)
 			.then(() => {
 				setOrderInfo({
 					filmInfo,
@@ -99,7 +101,7 @@ const Seats = () => {
 				})
 				navigate('/sucesso')
 			})
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.postOrder))
 			.finally(() => setIsSubmitLoading(false))
 	}
 
@@ -149,7 +151,6 @@ const Seats = () => {
 			</form>
 
 			<Footer filmInfo={filmInfo} isLoading={isLoading} />
-
 		</Container>
 	)
 }

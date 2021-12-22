@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { getFilms } from '../../services/service.films'
+import { errorModal } from '../../factories/modalFactory'
 
 import LoaderSpinner from '../shared/LoaderSpinner'
 import Films from './Films'
@@ -11,12 +12,16 @@ const Homepage = () => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [filmsList, setFilmsList] = useState([])
 
+	const errorMsg = {
+		getFilms: `Não conseguimos carregar os filmes 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+	}
+
 	useEffect(() => {
 		setIsLoading(true)
-		// TODO: Melhorar retorno do erro (throw modal)
 		getFilms()
 			.then(({ data }) => setFilmsList(data))
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.getFilms))
 			.finally(() => setIsLoading(false))
 	}, [])
 

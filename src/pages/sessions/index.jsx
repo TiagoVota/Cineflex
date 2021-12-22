@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { getSessions } from '../../services/service.films'
+import { errorModal } from '../../factories/modalFactory'
 
 import LoaderSpinner from '../shared/LoaderSpinner'
 import Session from './Session'
@@ -13,15 +14,19 @@ const Sessions = () => {
 	const { filmId } = useParams()
 	const [sessionInfo, setSessionInfo] = useState({})
 	const [isLoading, setIsLoading] = useState(true)
-	const { title, posterURL, days } = sessionInfo
+	const { title, posterURL, days=[] } = sessionInfo
 	const filmInfo = { id: filmId, title, posterURL }
+
+	const errorMsg = {
+		getSessions: `Não conseguimos carregar as sessões 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+	}
 	
 	useEffect(() => {
 		setIsLoading(true)
-		// TODO: Melhorar resposta do catch (sweetalert)
 		getSessions({filmId})
 			.then(({ data }) => setSessionInfo(data))
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.getSessions))
 			.finally(() => setIsLoading(false))
 	}, [])
 

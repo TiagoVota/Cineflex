@@ -5,7 +5,7 @@ const errorModal = (text) => {
 	Swal.fire({
 		icon: 'error',
 		title: 'Oops...',
-		text
+		html: text || 'Algo deu errado!'
 	})
 }
 
