@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { getSessions } from '../../services/service.films'
 
+import LoaderSpinner from '../shared/LoaderSpinner'
 import Session from './Session'
 import Footer from '../shared/Footer'
 
@@ -11,14 +12,17 @@ import Footer from '../shared/Footer'
 const Sessions = () => {
 	const { filmId } = useParams()
 	const [sessionInfo, setSessionInfo] = useState({})
+	const [isLoading, setIsLoading] = useState(true)
 	const { title, posterURL, days } = sessionInfo
 	const filmInfo = { id: filmId, title, posterURL }
 	
 	useEffect(() => {
+		setIsLoading(true)
 		// TODO: Melhorar resposta do catch (sweetalert)
 		getSessions({filmId})
 			.then(({ data }) => setSessionInfo(data))
 			.catch(({ response }) => console.log('error:', response))
+			.finally(() => setIsLoading(false))
 	}, [])
 
 	return (
@@ -27,17 +31,17 @@ const Sessions = () => {
 				<h2>Selecione o horário</h2>
 			</Title>
 
+			
 			{
-				Boolean(days)
-					? days.map((sessionInfo, index) => <Session
+				isLoading
+					? <LoaderSpinner type='TailSpin' />
+					: days.map((sessionInfo, index) => <Session
 						key={index}
 						sessionInfo={sessionInfo}
 					/>)
-
-					: ''  // TODO: Fazer um loader para essa belezinha
 			}
 
-			<Footer filmInfo={filmInfo} />
+			<Footer filmInfo={filmInfo} isLoading={isLoading} />
 		</Container>
 	)
 }
@@ -63,8 +67,6 @@ const Title = styled.div`
 	align-items: center;
 
 	> h2 {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 24px;
 		line-height: 28px;
 		letter-spacing: 0.04em;

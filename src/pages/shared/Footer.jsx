@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
+import LoaderSpinner from './LoaderSpinner'
 import Poster from './Poster'
 
 
-const Footer = ({ filmInfo }) => {
+const Footer = ({ filmInfo, isLoading }) => {
 	const { title, time, weekday } = filmInfo
 
 	const makeSessionStr = (time, weekday) => {
@@ -12,14 +13,20 @@ const Footer = ({ filmInfo }) => {
 	
 	return (
 		<Container>
-			<PosterContainer>
-				<Poster filmInfo={filmInfo} isMini />
-			</PosterContainer>
+			{
+				isLoading
+					? <LoaderSpinner />
+					: <>
+						<PosterContainer>
+							<Poster filmInfo={filmInfo} isMini />
+						</PosterContainer>
 
-			<DescriptionContainer>
-				<p>{title}</p>
-				<p>{makeSessionStr(time, weekday)}</p>
-			</DescriptionContainer>
+						<DescriptionContainer>
+							<p>{title}</p>
+							<p>{makeSessionStr(time, weekday)}</p>
+						</DescriptionContainer>
+					</>
+			}
 		</Container>
 	)
 }
@@ -46,8 +53,6 @@ const PosterContainer = styled.div`
 
 const DescriptionContainer = styled.div`
 	> p {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 26px;
 		line-height: 30px;
 		display: flex;

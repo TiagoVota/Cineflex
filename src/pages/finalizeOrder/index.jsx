@@ -27,7 +27,6 @@ const FinalizeOrder = () => {
 				</h2>
 			</Title>
 
-			{/* TODO: Coloca loader maroto */}
 			<InfoTitle>Filme e sessão</InfoTitle>
 			<InfoSubtitle>
 				{title}<br/>
@@ -91,7 +90,6 @@ const Title = styled.div`
 	text-align: center;
 
 	> h2 {
-		font-style: normal;
 		font-weight: bold;
 		font-size: 24px;
 		line-height: 28px;
@@ -102,7 +100,6 @@ const Title = styled.div`
 
 const InfoTitle = styled.h3`
 	margin: 10vw 0 5px 8vw;
-	font-style: normal;
 	font-weight: bold;
 	font-size: 24px;
 	line-height: 28px;
@@ -112,8 +109,6 @@ const InfoTitle = styled.h3`
 
 const InfoSubtitle = styled.h4`
 	margin: 0 0 2vh 8vw;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 22px;
 	line-height: 26px;
 	letter-spacing: 0.04em;
@@ -126,8 +121,6 @@ const Button = styled.button`
 	margin: 50px 20vw 20vw;
 	background: #E8833A;
 	border-radius: 3px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	letter-spacing: 0.04em;

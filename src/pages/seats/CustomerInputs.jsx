@@ -51,7 +51,6 @@ const Container = styled.div`
 `
 
 const Title = styled.h4`
-	font-style: normal;
 	font-weight: bold;
 	font-size: 20px;
 	line-height: 28px;
@@ -62,8 +61,6 @@ const Title = styled.h4`
 const Label = styled.label`
   margin: 10px 0 0 6vw;
 	display: flex;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	color: #293845;

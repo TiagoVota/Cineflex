@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import OrderContext from '../../contexts/OrderContext'
 import { getSeats, postOrder } from '../../services/service.films'
 import {
-	findCustomerById,
 	makeSeatsList,
 	selectedSeats,
 	addAndRemoveCustomer,
@@ -14,6 +13,7 @@ import {
 } from '../../factories/seatsFactory'
 import { errorModal } from '../../factories/modalFactory'
 
+import LoaderSpinner from '../shared/LoaderSpinner'
 import Subtitles from './Subtitles'
 import Seat from './Seat'
 import CustomerInputs from './CustomerInputs'
@@ -24,6 +24,7 @@ const Seats = () => {
 	const { sessionId } = useParams()
 	const navigate = useNavigate()
 	const { setOrderInfo } = useContext(OrderContext)
+	const [isLoading, setIsLoading] = useState(true)
 	const [filmInfo, setFilmInfo] = useState({})
 	const [seatsList, setSeatsList] = useState([])
 	const [customersInfo, setCustomersInfo] = useState([])
@@ -33,6 +34,7 @@ const Seats = () => {
 	}
 
 	useEffect(() => {
+		setIsLoading(true)
 		// TODO: Melhorar resposta do catch (sweetalert)
 		getSeats({ sessionId })
 			.then(({ data: seatsInfo }) => {
@@ -48,13 +50,12 @@ const Seats = () => {
 				setSeatsList(makeSeatsList(seats))
 			})
 			.catch(({ response }) => console.log('error:', response))
+			.finally(() => setIsLoading(false))
 	}, [])
 
 	const updateCustomer = ({ id, name, cpf }) => {
-		const updatedCustomersInfo = updateCustomersByInput(
-			{ id, name, cpf, customersInfo }
-		)
-		setCustomersInfo(updatedCustomersInfo)
+		const props = { id, name, cpf, customersInfo }
+		setCustomersInfo(updateCustomersByInput(props))
 	}
 
 	const makeJSXSeatsList = (seatsList) => {
@@ -105,11 +106,17 @@ const Seats = () => {
 				<h2>Selecione o(s) assento(s)</h2>
 			</Title>
 
-			<SeatsContainer>
-				{makeJSXSeatsList(seatsList)}
-			</SeatsContainer>
+			{
+				isLoading
+					? <LoaderSpinner type='TailSpin' />
+					: <>
+						<SeatsContainer>
+							{makeJSXSeatsList(seatsList)}
+						</SeatsContainer>
 
-			<Subtitles />
+						<Subtitles />
+					</>
+			}
 
 			<form onSubmit={handleSubmit}>
 				{/* TODO: Fazer um Joi para as entradas esse forms */}
@@ -121,12 +128,14 @@ const Seats = () => {
 					/>)
 				}
 
-				<Button type='submit'>
-					Reservar assento(s)
-				</Button>
+				{
+					customersInfo.length === 0
+						? <></>
+						: <Button type='submit'>Reservar assento(s)</Button>
+				}
 			</form>
 
-			<Footer filmInfo={filmInfo} />
+			<Footer filmInfo={filmInfo} isLoading={isLoading} />
 
 		</Container>
 	)
@@ -154,8 +163,6 @@ const Title = styled.div`
 	align-items: center;
 
 	> h2 {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 24px;
 		line-height: 28px;
 		letter-spacing: 0.04em;
@@ -175,11 +182,9 @@ const SeatsContainer = styled.div`
 const Button = styled.button`
 	width: 60vw;
 	height: 42px;
-	margin: 20px 20vw 0;
+	margin: 20px 20vw 30px;
 	background: #E8833A;
 	border-radius: 3px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	letter-spacing: 0.04em;
