@@ -25,6 +25,7 @@ const Seats = () => {
 	const navigate = useNavigate()
 	const { setOrderInfo } = useContext(OrderContext)
 	const [isLoading, setIsLoading] = useState(true)
+	const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 	const [filmInfo, setFilmInfo] = useState({})
 	const [seatsList, setSeatsList] = useState([])
 	const [customersInfo, setCustomersInfo] = useState([])
@@ -79,6 +80,7 @@ const Seats = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
+		setIsSubmitLoading(true)
 		
 		const orderSeats = {
 			ids: selectedSeats(seatsList, 'id'),
@@ -98,6 +100,15 @@ const Seats = () => {
 				navigate('/sucesso')
 			})
 			.catch(({ response }) => console.log('error:', response))
+			.finally(() => setIsSubmitLoading(false))
+	}
+
+	const makeSubmitButtonText = (isLoading) => {
+		return (
+			isLoading
+				? <LoaderSpinner width={'40px'} color={'#FFFFFF'} />
+				: 'Reservar assento(s)'
+		)
 	}
 
 	return (
@@ -108,7 +119,7 @@ const Seats = () => {
 
 			{
 				isLoading
-					? <LoaderSpinner type='TailSpin' />
+					? <LoaderSpinner type='TailSpin' heightDiscount={titleHeight} />
 					: <>
 						<SeatsContainer>
 							{makeJSXSeatsList(seatsList)}
@@ -128,11 +139,13 @@ const Seats = () => {
 					/>)
 				}
 
-				{
-					customersInfo.length === 0
-						? <></>
-						: <Button type='submit'>Reservar assento(s)</Button>
-				}
+				<Button
+					type='submit'
+					isLoading={isSubmitLoading}
+					isHidden={customersInfo.length === 0}
+				>
+					{makeSubmitButtonText(isSubmitLoading)}
+				</Button>
 			</form>
 
 			<Footer filmInfo={filmInfo} isLoading={isLoading} />
@@ -147,6 +160,7 @@ export default Seats
 
 const headerHeight = '67px'
 const footerHeight = '117px'
+const titleHeight = '110px'
 const seatCircleRadius = '26px'
 
 const Container = styled.div`
@@ -157,7 +171,7 @@ const Container = styled.div`
 `
 
 const Title = styled.div`
-	height: 110px;
+	height: ${titleHeight};
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -183,7 +197,8 @@ const Button = styled.button`
 	width: 60vw;
 	height: 42px;
 	margin: 20px 20vw 30px;
-	background: #E8833A;
+	${p => p.isHidden ? 'display: none;' : ''}
+	background: ${p => p.isLoading ? '#E89056' : '#E8833A'};
 	border-radius: 3px;
 	font-size: 18px;
 	line-height: 21px;

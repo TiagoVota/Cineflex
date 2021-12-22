@@ -34,7 +34,7 @@ const Sessions = () => {
 			
 			{
 				isLoading
-					? <LoaderSpinner type='TailSpin' />
+					? <LoaderSpinner type='TailSpin' heightDiscount={titleHeight} />
 					: days.map((sessionInfo, index) => <Session
 						key={index}
 						sessionInfo={sessionInfo}
@@ -52,6 +52,7 @@ export default Sessions
 
 const headerHeight = '67px'
 const footerHeight = '117px'
+const titleHeight = '110px'
 
 const Container = styled.div`
 	height: calc(100vh - ${headerHeight} - ${footerHeight});
@@ -61,7 +62,7 @@ const Container = styled.div`
 `
 
 const Title = styled.div`
-	height: 110px;
+	height: ${titleHeight};
 	display: flex;
 	justify-content: center;
 	align-items: center;

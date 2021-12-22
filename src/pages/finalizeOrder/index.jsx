@@ -74,6 +74,7 @@ export default FinalizeOrder
 
 // TODO: Colocar o componente container num lugar separado
 const headerHeight = '67px'
+const titleHeight = '110px'
 
 const Container = styled.div`
 	height: calc(100vh - ${headerHeight});
@@ -83,7 +84,7 @@ const Container = styled.div`
 `
 
 const Title = styled.div`
-	height: 110px;
+	height: ${titleHeight};
 	display: flex;
 	justify-content: center;
 	align-items: center;
