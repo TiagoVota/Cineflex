@@ -1,29 +1,26 @@
 const sanitizeCpf = (cpf) => {
-	const onlyNumbers = new RegExp(
-		/^[0-9]{0,3}[.]?[0-9]{0,3}[.]?[0-9]{0,3}[-]?[0-9]{0,2}$/
-	)
+	cpf = clearCpfInput(cpf)
+	cpf = makeCpfStyle(cpf)
+	return cpf
+}
 
-	if (!onlyNumbers.test(cpf)) return cpf.slice(0, -1)
+const clearCpfInput = (cpf) => {
+	cpf = cpf.replaceAll('.', '').replaceAll('-', '')
+
+	const onlyNumbers = new RegExp(/^[0-9]{0,11}$/)
+	if (!onlyNumbers.test(cpf)) cpf = cpf.slice(0, -1)
 
 	return cpf
 }
 
-const displayCpf = (cpf) => {
+const makeCpfStyle = (cpf) => {
 	const cpfLen = cpf.length
-	
-	if (cpfLen === 3+1) cpf = updateCpf(cpf, '.')
-	if (cpfLen === 6+2) cpf = updateCpf(cpf, '.')
-	if (cpfLen === 9+3) cpf = updateCpf(cpf, '-')
+
+	if (cpfLen > 3) cpf = addCharAt(cpf, '.', 3)
+	if (cpfLen > 6) cpf = addCharAt(cpf, '.', 6+1)
+	if (cpfLen > 9) cpf = addCharAt(cpf, '-', 9+2)
 
 	return cpf
-}
-
-const updateCpf = (cpf, especialChar) => {
-	const lastChar = cpf.slice(-1)
-	
-	return (lastChar === especialChar)
-		? cpf.slice(0, -1)
-		: addCharAt(cpf, especialChar, cpf.length-1)
 }
 
 const addCharAt = (str, char, position) => {
@@ -35,5 +32,4 @@ const addCharAt = (str, char, position) => {
 
 export {
 	sanitizeCpf,
-	displayCpf,
 }

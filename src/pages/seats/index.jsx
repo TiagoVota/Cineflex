@@ -9,9 +9,13 @@ import {
 	selectedSeats,
 	addAndRemoveCustomer,
 	updateSeatList,
-	updateCustomersByInput
+	updateCustomersByInput,
+	sanitizeCustomersInfo,
+	makeName
 } from '../../factories/seatsFactory'
 import { errorModal } from '../../factories/modalFactory'
+import { validateBuyer } from '../../validations/buyerValidation'
+import { handleMultiValidation } from '../../validations/handleValidation'
 
 import LoaderSpinner from '../shared/LoaderSpinner'
 import Subtitles from './Subtitles'
@@ -35,7 +39,10 @@ const Seats = () => {
 		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
 		unavailableSeat: 'Esse assento não está disponível 🧐',
 		postOrder: `Não conseguimos finalizar a compra 😔<br/>
-		Atualize a página ou tente novamente mais tarde, por favor 🥺`
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+		buyerValidation: (seatName, error) => {
+			return `<strong>Assento ${makeName(seatName)}:</strong> ${error}`
+		}
 	}
 
 	useEffect(() => {
@@ -87,7 +94,21 @@ const Seats = () => {
 		
 		const orderSeats = {
 			ids: selectedSeats(seatsList, 'id'),
-			compradores: customersInfo
+			compradores: sanitizeCustomersInfo(customersInfo)
+		}
+		const { compradores: buyers } = orderSeats
+
+		const {
+			isValid,
+			objectFail,
+			error
+		}	= handleMultiValidation(buyers, validateBuyer)
+		
+		if (!isValid) {
+			const seatName = makeName(objectFail.idAssento)
+			setIsSubmitLoading(false)
+
+			return errorModal(errorMsg.buyerValidation(seatName, error))
 		}
 		
 		postOrder(orderSeats)
@@ -132,7 +153,6 @@ const Seats = () => {
 			}
 
 			<form onSubmit={handleSubmit}>
-				{/* TODO: Fazer um Joi para as entradas esse forms */}
 				{
 					customersInfo.map((customerInfo, index) => <CustomerInputs
 						key={index}

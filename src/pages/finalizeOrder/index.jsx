@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import OrderContext from '../../contexts/OrderContext'
+import { sanitizeCpf } from '../../factories/CpfFactory'
 
 
 const FinalizeOrder = () => {
@@ -54,7 +55,7 @@ const FinalizeOrder = () => {
 					return (
 						<InfoSubtitle key={index}>
 							Nome: {nome}<br/>
-							CPF: {cpf}
+							CPF: {sanitizeCpf(cpf)}
 						</InfoSubtitle>
 					)
 				})

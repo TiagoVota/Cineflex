@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { displayCpf, sanitizeCpf } from '../../factories/CpfFactory'
+import { sanitizeCpf } from '../../factories/CpfFactory'
 import { makeName } from '../../factories/seatsFactory'
 
 
@@ -35,7 +35,7 @@ const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 					id: seatId,
 					cpf: sanitizeCpf(value)
 				})}
-				value={displayCpf(customerInfo.cpf)}
+				value={customerInfo.cpf}
 				required
 			/>
 		</Container>

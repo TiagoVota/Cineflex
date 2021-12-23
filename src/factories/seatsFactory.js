@@ -149,6 +149,17 @@ const findCustomerById = ({ id, customersInfo }) => {
 	return customersInfo.find(({ idAssento }) => idAssento === id)
 }
 
+const sanitizeCustomersInfo = (orderSeats) => {
+	const newOrderSeats = [...orderSeats].map((seat) => {
+		return {
+			...seat,
+			cpf: seat.cpf.replaceAll('.', '').replace('-', '')
+		}
+	})
+
+	return newOrderSeats
+}
+
 
 export {
 	makeName,
@@ -159,4 +170,5 @@ export {
 	addAndRemoveCustomer,
 	updateCustomersByInput,
 	findCustomerById,
+	sanitizeCustomersInfo,
 }

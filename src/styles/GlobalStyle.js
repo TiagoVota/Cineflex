@@ -23,6 +23,10 @@ const GlobalStyle = createGlobalStyle`
 	a {
 		text-decoration: none;
 	}
+
+	strong {
+		font-weight: bold;
+	}
 `
 
 
