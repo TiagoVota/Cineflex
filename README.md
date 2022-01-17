@@ -13,7 +13,6 @@ Corra para checar o site agora mesmo: https://cineflex-tvc.vercel.app/
 Nesta aplicação em React, o usuário poderá selecionar o filme e horário desejados, em seguida poderá selecionar os seus assentos e adicionar o nome e CPF específico de cada ingresso. Segue as features implementadas nessa aplicação:
 
 ### Features
-
 - [x] [Selecionar um filme]
 - [x] [Selecionar uma seção e horário]
 - [x] [Selecionar assentos desejados]
@@ -32,8 +31,8 @@ Nesta aplicação em React, o usuário poderá selecionar o filme e horário des
 	- [✔️ Tabela de conteúdo](#️-tabela-de-conteúdo)
 	- [🖥 Tecnologias](#-tecnologias)
 	- [⚙ Como usar](#-como-usar)
-		- [Instalando a API](#instalando-a-api)
-		- [Inicializando a API](#inicializando-a-api)
+		- [Instalando o app](#instalando-o-app)
+		- [Inicializando o app](#inicializando-o-app)
 	- [👨🏼‍💻 Autor](#-autor)
 <!--te-->
 
@@ -42,10 +41,14 @@ Nesta aplicação em React, o usuário poderá selecionar o filme e horário des
 
 ## 🖥 Tecnologias
 <p align="center">
+	<img alt="html5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+	<img alt="css3" src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+	<img alt="javascript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
   <img alt="react" src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
   <img alt="react-router" src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"/>
   <img alt="styled-components" src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"/>
   <img alt="eslinter" src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white"/>
+	<img alt="vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
 </p>
 
 <br/>
@@ -58,7 +61,7 @@ Para utilizar essa API, será necessário ter nas suas máquina as seguintes fer
 Além disso recomendo fortemente a utilização de um bom ter um editor de código, como o [VSCode](https://code.visualstudio.com/)!
 
 
-### Instalando a API
+### Instalando o app
 ```bash
 # Clone este repositório
 $ git clone https://github.com/TiagoVota/cineflex
@@ -68,7 +71,7 @@ $ cd cineflex
 $ npm install
 ```
 
-### Inicializando a API
+### Inicializando o app
 ```bash
 # Execute a aplicação
 $ npm start
