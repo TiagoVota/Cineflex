@@ -13,9 +13,9 @@ const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 				Assento {makeName(seatId)}
 			</Title>
 
-			<Label htmlFor='Nome'>Nome do comprador:</Label>
+			<Label htmlFor={`Nome - ${seatId}`}>Nome do comprador:</Label>
 			<Input
-				id='Nome'
+				id={`Nome - ${seatId}`}
 				placeholder='Digite seu nome...'
 				type='string'
 				onChange={({ target: { value } }) => updateCustomer({
@@ -26,9 +26,9 @@ const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 				required
 			/>
 
-			<Label htmlFor='CPF'>CPF do comprador:</Label>
+			<Label htmlFor={`CPF - ${seatId}`}>CPF do comprador:</Label>
 			<Input
-				id='CPF'
+				id={`CPF - ${seatId}`}
 				placeholder='Digite seu CPF...'
 				type='string'
 				onChange={({ target: { value } }) => updateCustomer({

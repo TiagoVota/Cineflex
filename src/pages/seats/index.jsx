@@ -17,6 +17,8 @@ import { errorModal } from '../../factories/modalFactory'
 import { validateBuyer } from '../../validations/buyerValidation'
 import { handleMultiValidation } from '../../validations/handleValidation'
 
+import PageContainer from '../components/PageContainer'
+import PageTitle, { titleHeight } from '../components/PageTitle'
 import LoaderSpinner from '../shared/LoaderSpinner'
 import Subtitles from './Subtitles'
 import Seat from './Seat'
@@ -135,10 +137,8 @@ const Seats = () => {
 	}
 
 	return (
-		<Container>
-			<Title>
-				<h2>Selecione o(s) assento(s)</h2>
-			</Title>
+		<PageContainer haveHeader haveFooter>
+			<PageTitle text='Selecione o(s) assento(s)' />
 
 			{
 				isLoading
@@ -171,39 +171,14 @@ const Seats = () => {
 			</form>
 
 			<Footer filmInfo={filmInfo} isLoading={isLoading} />
-		</Container>
+		</PageContainer>
 	)
 }
 
 
 export default Seats
 
-
-const headerHeight = '67px'
-const footerHeight = '117px'
-const titleHeight = '110px'
 const seatCircleRadius = '26px'
-
-const Container = styled.div`
-	height: calc(100vh - ${headerHeight} - ${footerHeight});
-	width: 100vw;
-	margin-top: ${headerHeight};
-	overflow-y: scroll;
-`
-
-const Title = styled.div`
-	height: ${titleHeight};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	> h2 {
-		font-size: 24px;
-		line-height: 28px;
-		letter-spacing: 0.04em;
-		color: #293845;
-	}
-`
 
 const SeatsContainer = styled.div`
 	width: 90vw;
@@ -214,6 +189,7 @@ const SeatsContainer = styled.div`
 	justify-content: space-around;
 `
 
+// TODO: Componentizar os botões
 const Button = styled.button`
 	width: 60vw;
 	height: 42px;

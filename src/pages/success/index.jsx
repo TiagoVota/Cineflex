@@ -2,11 +2,13 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import PageContainer from '../components/PageContainer'
+import PageTitle from '../components/PageTitle'
 import OrderContext from '../../contexts/OrderContext'
 import { sanitizeCpf } from '../../factories/CpfFactory'
 
 
-const FinalizeOrder = () => {
+const Success = () => {
 	const navigate = useNavigate()
 	const { orderInfo, setOrderInfo } = useContext(OrderContext)
 	const {
@@ -20,13 +22,11 @@ const FinalizeOrder = () => {
 	}
 
 	return (
-		<Container>
-			<Title>
-				<h2>
-					Pedido feito<br/>
-					com sucesso!
-				</h2>
-			</Title>
+		<PageContainer haveHeader>
+			<PageTitle
+				text={<>Pedido feito<br/>com sucesso!</>}
+				isSuccessPage
+			/>
 
 			<InfoTitle>Filme e sessão</InfoTitle>
 			<InfoSubtitle>
@@ -65,40 +65,13 @@ const FinalizeOrder = () => {
 				Voltar pra Home
 			</Button>
 
-		</Container>
+		</PageContainer>
 	)
 }
 
 
-export default FinalizeOrder
+export default Success
 
-
-// TODO: Colocar o componente container num lugar separado
-const headerHeight = '67px'
-const titleHeight = '110px'
-
-const Container = styled.div`
-	height: calc(100vh - ${headerHeight});
-	width: 100vw;
-	margin-top: ${headerHeight};
-	overflow-y: scroll;
-`
-
-const Title = styled.div`
-	height: ${titleHeight};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-
-	> h2 {
-		font-weight: bold;
-		font-size: 24px;
-		line-height: 28px;
-		letter-spacing: 0.04em;
-		color: #247A6B;
-	}
-`
 
 const InfoTitle = styled.h3`
 	margin: 10vw 0 5px 8vw;

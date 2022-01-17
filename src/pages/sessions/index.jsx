@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { getSessions } from '../../services/service.films'
 import { errorModal } from '../../factories/modalFactory'
 
+import PageContainer from '../components/PageContainer'
+import PageTitle, { titleHeight } from '../components/PageTitle'
 import LoaderSpinner from '../shared/LoaderSpinner'
-import Session from './Session'
+import SessionsList from './SessionsList'
 import Footer from '../shared/Footer'
 
 
@@ -31,51 +32,19 @@ const Sessions = () => {
 	}, [])
 
 	return (
-		<Container>
-			<Title>
-				<h2>Selecione o horário</h2>
-			</Title>
+		<PageContainer haveHeader haveFooter>
+			<PageTitle text='Selecione o horário' />
 
-			
 			{
 				isLoading
 					? <LoaderSpinner type='TailSpin' heightDiscount={titleHeight} />
-					: days.map((sessionInfo, index) => <Session
-						key={index}
-						sessionInfo={sessionInfo}
-					/>)
+					: <SessionsList days={days}/>
 			}
 
 			<Footer filmInfo={filmInfo} isLoading={isLoading} />
-		</Container>
+		</PageContainer>
 	)
 }
 
 
 export default Sessions
-
-
-const headerHeight = '67px'
-const footerHeight = '117px'
-const titleHeight = '110px'
-
-const Container = styled.div`
-	height: calc(100vh - ${headerHeight} - ${footerHeight});
-	width: 100vw;
-	margin-top: ${headerHeight};
-	overflow-y: scroll;
-`
-
-const Title = styled.div`
-	height: ${titleHeight};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	> h2 {
-		font-size: 24px;
-		line-height: 28px;
-		letter-spacing: 0.04em;
-		color: #293845;
-	}
-`

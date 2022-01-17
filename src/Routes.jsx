@@ -7,7 +7,7 @@ import Header from './pages/shared/Header'
 import Homepage from './pages/homepage'
 import Seats from './pages/seats'
 import Sessions from './pages/sessions'
-import FinalizeOrder from './pages/finalizeOrder'
+import Success from './pages/success'
 
 
 const PagesRoutes = () => {
@@ -22,7 +22,7 @@ const PagesRoutes = () => {
 				<Route path='/' element={<Homepage />} />
 				<Route path='/sessoes/:filmId' element={<Sessions />} />
 				<Route path='/assentos/:sessionId' element={<Seats />} />
-				<Route path='/sucesso' element={<FinalizeOrder />} />
+				<Route path='/sucesso' element={<Success />} />
 			</Routes>
 		</Router>
 	)
