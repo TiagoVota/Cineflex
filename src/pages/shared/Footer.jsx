@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
+import LoaderSpinner from './LoaderSpinner'
 import Poster from './Poster'
 
 
-const Footer = ({ filmInfo }) => {
+const Footer = ({ filmInfo, isLoading }) => {
 	const { title, time, weekday } = filmInfo
 
 	const makeSessionStr = (time, weekday) => {
@@ -12,25 +13,36 @@ const Footer = ({ filmInfo }) => {
 	
 	return (
 		<Container>
-			<PosterContainer>
-				<Poster filmInfo={filmInfo} isMini />
-			</PosterContainer>
+			{
+				isLoading
+					? <LoaderSpinner />
+					: <>
+						<PosterContainer>
+							<Poster filmInfo={filmInfo} isMini />
+						</PosterContainer>
 
-			<DescriptionContainer>
-				<p>{title}</p>
-				<p>{makeSessionStr(time, weekday)}</p>
-			</DescriptionContainer>
+						<DescriptionContainer>
+							<p>{title}</p>
+							<p>{makeSessionStr(time, weekday)}</p>
+						</DescriptionContainer>
+					</>
+			}
 		</Container>
 	)
 }
 
 
 export default Footer
+export {
+	footerHeight,
+}
 
+
+const footerHeight = '117px'
 
 const Container = styled.div`
 	width: 100vw;
-	height: 117px;
+	height: ${footerHeight};
 	position: absolute;
 	left: 0px;
 	bottom: 0px;
@@ -46,8 +58,6 @@ const PosterContainer = styled.div`
 
 const DescriptionContainer = styled.div`
 	> p {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 26px;
 		line-height: 30px;
 		display: flex;

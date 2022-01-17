@@ -60,8 +60,6 @@ const SubtitleBox = styled.div`
 	align-items: center;
 
 	> p {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 13px;
 		line-height: 15px;
 		letter-spacing: -0.013em;

@@ -1,18 +1,21 @@
 import styled from 'styled-components'
 
+import { sanitizeCpf } from '../../factories/CpfFactory'
+import { makeName } from '../../factories/seatsFactory'
+
 
 const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 	const { idAssento: seatId } = customerInfo
+
 	return (
 		<Container>
 			<Title>
-				{/* TODO: Arrumar o name aqui */}
-				Assento {seatId%50 === 0 ? 50 : seatId%50}
+				Assento {makeName(seatId)}
 			</Title>
 
-			<Label htmlFor='Nome'>Nome do comprador:</Label>
+			<Label htmlFor={`Nome - ${seatId}`}>Nome do comprador:</Label>
 			<Input
-				id='Nome'
+				id={`Nome - ${seatId}`}
 				placeholder='Digite seu nome...'
 				type='string'
 				onChange={({ target: { value } }) => updateCustomer({
@@ -23,14 +26,14 @@ const CustomerInputs = ({ updateCustomer, customerInfo }) => {
 				required
 			/>
 
-			<Label htmlFor='CPF'>CPF do comprador:</Label>
+			<Label htmlFor={`CPF - ${seatId}`}>CPF do comprador:</Label>
 			<Input
-				id='CPF'
+				id={`CPF - ${seatId}`}
 				placeholder='Digite seu CPF...'
 				type='string'
 				onChange={({ target: { value } }) => updateCustomer({
 					id: seatId,
-					cpf: value
+					cpf: sanitizeCpf(value)
 				})}
 				value={customerInfo.cpf}
 				required
@@ -47,11 +50,10 @@ const Container = styled.div`
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 `
 
 const Title = styled.h4`
-	font-style: normal;
+	text-align: center;
 	font-weight: bold;
 	font-size: 20px;
 	line-height: 28px;
@@ -62,8 +64,6 @@ const Title = styled.h4`
 const Label = styled.label`
   margin: 10px 0 0 6vw;
 	display: flex;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	color: #293845;

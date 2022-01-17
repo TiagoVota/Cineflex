@@ -2,10 +2,13 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import PageContainer from '../components/PageContainer'
+import PageTitle from '../components/PageTitle'
 import OrderContext from '../../contexts/OrderContext'
+import { sanitizeCpf } from '../../factories/CpfFactory'
 
 
-const FinalizeOrder = () => {
+const Success = () => {
 	const navigate = useNavigate()
 	const { orderInfo, setOrderInfo } = useContext(OrderContext)
 	const {
@@ -19,15 +22,12 @@ const FinalizeOrder = () => {
 	}
 
 	return (
-		<Container>
-			<Title>
-				<h2>
-					Pedido feito<br/>
-					com sucesso!
-				</h2>
-			</Title>
+		<PageContainer haveHeader>
+			<PageTitle
+				text={<>Pedido feito<br/>com sucesso!</>}
+				isSuccessPage
+			/>
 
-			{/* TODO: Coloca loader maroto */}
 			<InfoTitle>Filme e sessão</InfoTitle>
 			<InfoSubtitle>
 				{title}<br/>
@@ -55,7 +55,7 @@ const FinalizeOrder = () => {
 					return (
 						<InfoSubtitle key={index}>
 							Nome: {nome}<br/>
-							CPF: {cpf}
+							CPF: {sanitizeCpf(cpf)}
 						</InfoSubtitle>
 					)
 				})
@@ -65,44 +65,16 @@ const FinalizeOrder = () => {
 				Voltar pra Home
 			</Button>
 
-		</Container>
+		</PageContainer>
 	)
 }
 
 
-export default FinalizeOrder
+export default Success
 
-
-// TODO: Colocar o componente container num lugar separado
-const headerHeight = '67px'
-
-const Container = styled.div`
-	height: calc(100vh - ${headerHeight});
-	width: 100vw;
-	margin-top: ${headerHeight};
-	overflow-y: scroll;
-`
-
-const Title = styled.div`
-	height: 110px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-
-	> h2 {
-		font-style: normal;
-		font-weight: bold;
-		font-size: 24px;
-		line-height: 28px;
-		letter-spacing: 0.04em;
-		color: #247A6B;
-	}
-`
 
 const InfoTitle = styled.h3`
 	margin: 10vw 0 5px 8vw;
-	font-style: normal;
 	font-weight: bold;
 	font-size: 24px;
 	line-height: 28px;
@@ -112,8 +84,6 @@ const InfoTitle = styled.h3`
 
 const InfoSubtitle = styled.h4`
 	margin: 0 0 2vh 8vw;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 22px;
 	line-height: 26px;
 	letter-spacing: 0.04em;
@@ -126,8 +96,6 @@ const Button = styled.button`
 	margin: 50px 20vw 20vw;
 	background: #E8833A;
 	border-radius: 3px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	letter-spacing: 0.04em;

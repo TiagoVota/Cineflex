@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 
 const Poster = ({ filmInfo: { id, title, posterURL }, isMini }) => {
-	// TODO: Tornar tamanho dos poster sendo responsivo
 	return (
 		<Link to={`/sessoes/${id}`}>
 			<Container isMini={isMini}>

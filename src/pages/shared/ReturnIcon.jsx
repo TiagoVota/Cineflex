@@ -1,9 +1,9 @@
-import { ReturnDownBackOutline } from 'react-ionicons'
+import { IoReturnDownBack } from 'react-icons/io5'
 
 
 const ReturnIcon = () => {
 	return (
-		<ReturnDownBackOutline
+		<IoReturnDownBack
 			color={'#FFFFFF'} 
 			title={'Return icon'}
 			height='20px'

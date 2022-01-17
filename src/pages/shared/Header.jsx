@@ -20,6 +20,9 @@ const Header = () => {
 
 
 export default Header
+export {
+	headerHeight
+}
 
 
 const headerHeight = '67px'
@@ -38,8 +41,6 @@ const Container = styled.div`
 
 const Title = styled.h1`
 	padding: calc((${headerHeight} - 40px) / 2) 20px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 34px;
 	line-height: 40px;
 	color: #E8833A;

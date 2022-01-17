@@ -34,8 +34,6 @@ const Container = styled.div`
 	padding: 0 0 23px 23px;
 
 	> h3 {
-		font-style: normal;
-		font-weight: normal;
 		font-size: 20px;
 		line-height: 23px;
 		letter-spacing: 0.02em;
@@ -55,8 +53,6 @@ const Button = styled.button`
 	margin-right: 8px;
 	border-radius: 3px;
 	background: #E8833A;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	letter-spacing: 0.02em;

@@ -6,11 +6,20 @@ import { confirmModal } from './modalFactory'
 	elas ficavam melhor num arquivo tipo esse de factory ou em algum 'helper' ou
 	onde colocar. Tens alguma sugestão para mim?
 */
+const makeName = (seat) => {
+	if (typeof seat === 'number') {
+		seat = (seat % 50 === 0) ? 50 : seat % 50
+		seat = String(seat)
+	}
+	seat = seat.length === 1 ? `0${seat}` : seat
+
+	return seat
+}
+
 const makeSeatsList = (seats) => {
 	if (!seats?.[0]) return []
 
 	const makeStatus = isAvailable => isAvailable ? 'available' : 'unavailable'
-	const makeName = name => name.length === 1 ? `0${name}` : name
 
 	const seatsList = seats.map(({ id, name, isAvailable }) => {
 		return {
@@ -71,7 +80,7 @@ const confirmDeleteSeat = ({ status, seatId, customerInfo }) => {
 	if (status !== 'selected') return true
 	if (!haveName && !haveCpf) return true
 
-	const title = `Deseja mesmo deletar o assento ${seatId % 50}?`
+	const title = `Deseja mesmo deletar o assento ${makeName(seatId)}?`
 	const text = 'Todos os dados dele serão apagados!'
 	let confirmDelete = false
 
@@ -140,8 +149,20 @@ const findCustomerById = ({ id, customersInfo }) => {
 	return customersInfo.find(({ idAssento }) => idAssento === id)
 }
 
+const sanitizeCustomersInfo = (orderSeats) => {
+	const newOrderSeats = [...orderSeats].map((seat) => {
+		return {
+			...seat,
+			cpf: seat.cpf.replaceAll('.', '').replace('-', '')
+		}
+	})
+
+	return newOrderSeats
+}
+
 
 export {
+	makeName,
 	makeSeatsList,
 	seatColors,
 	updateSeatList,
@@ -149,4 +170,5 @@ export {
 	addAndRemoveCustomer,
 	updateCustomersByInput,
 	findCustomerById,
+	sanitizeCustomersInfo,
 }

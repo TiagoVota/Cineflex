@@ -5,15 +5,21 @@ import styled from 'styled-components'
 import OrderContext from '../../contexts/OrderContext'
 import { getSeats, postOrder } from '../../services/service.films'
 import {
-	findCustomerById,
 	makeSeatsList,
 	selectedSeats,
 	addAndRemoveCustomer,
 	updateSeatList,
-	updateCustomersByInput
+	updateCustomersByInput,
+	sanitizeCustomersInfo,
+	makeName
 } from '../../factories/seatsFactory'
 import { errorModal } from '../../factories/modalFactory'
+import { validateBuyer } from '../../validations/buyerValidation'
+import { handleMultiValidation } from '../../validations/handleValidation'
 
+import PageContainer from '../components/PageContainer'
+import PageTitle, { titleHeight } from '../components/PageTitle'
+import LoaderSpinner from '../shared/LoaderSpinner'
 import Subtitles from './Subtitles'
 import Seat from './Seat'
 import CustomerInputs from './CustomerInputs'
@@ -24,16 +30,25 @@ const Seats = () => {
 	const { sessionId } = useParams()
 	const navigate = useNavigate()
 	const { setOrderInfo } = useContext(OrderContext)
+	const [isLoading, setIsLoading] = useState(true)
+	const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 	const [filmInfo, setFilmInfo] = useState({})
 	const [seatsList, setSeatsList] = useState([])
 	const [customersInfo, setCustomersInfo] = useState([])
 
 	const errorMsg = {
-		unavailableSeat: 'Esse assento não está disponível!'
+		getSeats: `Não conseguimos carregar os assentos 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+		unavailableSeat: 'Esse assento não está disponível 🧐',
+		postOrder: `Não conseguimos finalizar a compra 😔<br/>
+		Atualize a página ou tente novamente mais tarde, por favor 🥺`,
+		buyerValidation: (seatName, error) => {
+			return `<strong>Assento ${makeName(seatName)}:</strong> ${error}`
+		}
 	}
 
 	useEffect(() => {
-		// TODO: Melhorar resposta do catch (sweetalert)
+		setIsLoading(true)
 		getSeats({ sessionId })
 			.then(({ data: seatsInfo }) => {
 				const {
@@ -47,14 +62,13 @@ const Seats = () => {
 				setFilmInfo({ id, sessionId, title, posterURL, time, weekday, date })
 				setSeatsList(makeSeatsList(seats))
 			})
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.getSeats))
+			.finally(() => setIsLoading(false))
 	}, [])
 
 	const updateCustomer = ({ id, name, cpf }) => {
-		const updatedCustomersInfo = updateCustomersByInput(
-			{ id, name, cpf, customersInfo }
-		)
-		setCustomersInfo(updatedCustomersInfo)
+		const props = { id, name, cpf, customersInfo }
+		setCustomersInfo(updateCustomersByInput(props))
 	}
 
 	const makeJSXSeatsList = (seatsList) => {
@@ -68,7 +82,7 @@ const Seats = () => {
 	} 
 
 	const handleSeatClick = ({ seatId, status }) => {
-		if (status === 'unavailable') return errorModal(errorMsg['unavailableSeat'])
+		if (status === 'unavailable') return errorModal(errorMsg.unavailableSeat)
 
 		const updatedSeatList = updateSeatList({ seatId, status, seatsList, customersInfo })
 		setCustomersInfo(addAndRemoveCustomer({ customersInfo, seatId }))
@@ -78,14 +92,28 @@ const Seats = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
+		setIsSubmitLoading(true)
 		
 		const orderSeats = {
 			ids: selectedSeats(seatsList, 'id'),
-			compradores: customersInfo
+			compradores: sanitizeCustomersInfo(customersInfo)
+		}
+		const { compradores: buyers } = orderSeats
+
+		const {
+			isValid,
+			objectFail,
+			error
+		}	= handleMultiValidation(buyers, validateBuyer)
+		
+		if (!isValid) {
+			const seatName = makeName(objectFail.idAssento)
+			setIsSubmitLoading(false)
+
+			return errorModal(errorMsg.buyerValidation(seatName, error))
 		}
 		
 		postOrder(orderSeats)
-		// TODO: Melhorar resposta do catch (sweetalert)
 			.then(() => {
 				setOrderInfo({
 					filmInfo,
@@ -96,23 +124,35 @@ const Seats = () => {
 				})
 				navigate('/sucesso')
 			})
-			.catch(({ response }) => console.log('error:', response))
+			.catch(() => errorModal(errorMsg.postOrder))
+			.finally(() => setIsSubmitLoading(false))
+	}
+
+	const makeSubmitButtonText = (isLoading) => {
+		return (
+			isLoading
+				? <LoaderSpinner width={'40px'} color={'#FFFFFF'} />
+				: 'Reservar assento(s)'
+		)
 	}
 
 	return (
-		<Container>
-			<Title>
-				<h2>Selecione o(s) assento(s)</h2>
-			</Title>
+		<PageContainer haveHeader haveFooter>
+			<PageTitle text='Selecione o(s) assento(s)' />
 
-			<SeatsContainer>
-				{makeJSXSeatsList(seatsList)}
-			</SeatsContainer>
+			{
+				isLoading
+					? <LoaderSpinner type='TailSpin' heightDiscount={titleHeight} />
+					: <>
+						<SeatsContainer>
+							{makeJSXSeatsList(seatsList)}
+						</SeatsContainer>
 
-			<Subtitles />
+						<Subtitles />
+					</>
+			}
 
 			<form onSubmit={handleSubmit}>
-				{/* TODO: Fazer um Joi para as entradas esse forms */}
 				{
 					customersInfo.map((customerInfo, index) => <CustomerInputs
 						key={index}
@@ -121,47 +161,24 @@ const Seats = () => {
 					/>)
 				}
 
-				<Button type='submit'>
-					Reservar assento(s)
+				<Button
+					type='submit'
+					isLoading={isSubmitLoading}
+					isHidden={customersInfo.length === 0}
+				>
+					{makeSubmitButtonText(isSubmitLoading)}
 				</Button>
 			</form>
 
-			<Footer filmInfo={filmInfo} />
-
-		</Container>
+			<Footer filmInfo={filmInfo} isLoading={isLoading} />
+		</PageContainer>
 	)
 }
 
 
 export default Seats
 
-
-const headerHeight = '67px'
-const footerHeight = '117px'
 const seatCircleRadius = '26px'
-
-const Container = styled.div`
-	height: calc(100vh - ${headerHeight} - ${footerHeight});
-	width: 100vw;
-	margin-top: ${headerHeight};
-	overflow-y: scroll;
-`
-
-const Title = styled.div`
-	height: 110px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	> h2 {
-		font-style: normal;
-		font-weight: normal;
-		font-size: 24px;
-		line-height: 28px;
-		letter-spacing: 0.04em;
-		color: #293845;
-	}
-`
 
 const SeatsContainer = styled.div`
 	width: 90vw;
@@ -172,14 +189,14 @@ const SeatsContainer = styled.div`
 	justify-content: space-around;
 `
 
+// TODO: Componentizar os botões
 const Button = styled.button`
 	width: 60vw;
 	height: 42px;
-	margin: 20px 20vw 0;
-	background: #E8833A;
+	margin: 20px 20vw 30px;
+	${p => p.isHidden ? 'display: none;' : ''}
+	background: ${p => p.isLoading ? '#E89056' : '#E8833A'};
 	border-radius: 3px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 18px;
 	line-height: 21px;
 	letter-spacing: 0.04em;

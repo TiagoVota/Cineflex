@@ -34,8 +34,6 @@ const CircleSeat = styled.div`
 	background: ${p => p.background};
 	border: 1px solid ${p => p.border};
 	border-radius: 12px;
-	font-style: normal;
-	font-weight: normal;
 	font-size: 11px;
 	line-height: 13px;
 	letter-spacing: 0.04em;
