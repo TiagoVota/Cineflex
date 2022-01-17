@@ -4,7 +4,7 @@ Que tal um cineminha? Com Cineflex você pode reservar seu assento (e da galera 
 
 <img src="/public/assets/cineflex-usage.gif" />
 
-Corra para o site agora mesmo: https://cineflex-tvc.vercel.app/
+Corra para checar o site agora mesmo: https://cineflex-tvc.vercel.app/
 
 <br/>
 
