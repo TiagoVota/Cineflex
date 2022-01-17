@@ -2,7 +2,7 @@
 ## 🚀 Descrição do Projeto
 Que tal um cineminha? Com Cineflex você pode reservar seu assento (e da galera também) num piscar de olhos. Então está esperando o que? Vamos logo fazer a reserva do melhor filme em cartaz e correr para o cinema para ainda comprar a pipoquinha!
 
-<img src="/public/assets/cineflex-usage.gif" />
+<img alt='Cineflex usage GIF' align='center' src="/public/assets/cineflex-usage.gif" />
 
 Corra para checar o site agora mesmo: https://cineflex-tvc.vercel.app/
 
